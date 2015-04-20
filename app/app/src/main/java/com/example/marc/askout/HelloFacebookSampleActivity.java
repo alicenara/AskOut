@@ -31,6 +31,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
@@ -38,6 +39,8 @@ import com.facebook.FacebookAuthorizationException;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
 import com.facebook.FacebookSdk;
+import com.facebook.GraphResponse;
+import com.facebook.HttpMethod;
 import com.facebook.Profile;
 import com.facebook.ProfileTracker;
 import com.facebook.appevents.AppEventsLogger;
@@ -50,6 +53,10 @@ import com.facebook.share.model.ShareLinkContent;
 import com.facebook.share.model.SharePhoto;
 import com.facebook.share.model.SharePhotoContent;
 import com.facebook.share.widget.ShareDialog;
+
+// <ADDED BY ME>
+import com.facebook.GraphRequest;
+// </ADDED BY ME>
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -325,6 +332,17 @@ public class HelloFacebookSampleActivity extends FragmentActivity {
         } else {
             pendingAction = PendingAction.POST_PHOTO;
         }
+    }
+
+    private void onClickGetLikes() {
+        AccessToken accessToken = AccessToken.getCurrentAccessToken();
+        GraphRequest.Callback postLikes = new GraphRequest.Callback() {
+            @Override
+            public void onCompleted(GraphResponse response) {
+                Toast.makeText(getApplicationContext(), response.toString(), Toast.LENGTH_LONG).show();
+            }
+        };
+        GraphRequest gr = new GraphRequest(accessToken, "me/likes", null, HttpMethod.GET, postLikes);
     }
 
     private boolean hasPublishPermission() {
