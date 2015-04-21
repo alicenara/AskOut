@@ -1,0 +1,25 @@
+{
+  "name": "AskOut",
+  "version": "0.0.1",
+  "description": "Do you wanna now whats the best events in your town? This is your app! ",
+  "main": "index.js",
+  "scripts": {
+    "test": "hi"
+  },
+  "repository": {
+    "type": "git",
+    "url": "alicenara"
+  },
+  "keywords": [
+    "askout",
+    "calendar",
+    "events",
+    "beer"
+  ],
+  "author": "PTI Team LAlbertEnsMataMolt",
+  "license": "UNIX",
+  "dependencies": {
+    "express": "^4.12.3",
+    "mongoose": "^4.0.1"
+  }
+}

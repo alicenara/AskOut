@@ -1,0 +1,42 @@
+0 info it worked if it ends with ok
+1 verbose cli [ '/usr/bin/node', '/usr/bin/npm', 'install', 'cron' ]
+2 info using npm@1.4.28
+3 info using node@v0.10.38
+4 verbose node symlink /usr/bin/node
+5 warn package.json AskOut@0.0.1 No README data
+6 verbose readDependencies using package.json deps
+7 verbose cache add [ 'cron', null ]
+8 verbose cache add name=undefined spec="cron" args=["cron",null]
+9 verbose parsed url { protocol: null,
+9 verbose parsed url   slashes: null,
+9 verbose parsed url   auth: null,
+9 verbose parsed url   host: null,
+9 verbose parsed url   port: null,
+9 verbose parsed url   hostname: null,
+9 verbose parsed url   hash: null,
+9 verbose parsed url   search: null,
+9 verbose parsed url   query: null,
+9 verbose parsed url   pathname: 'cron',
+9 verbose parsed url   path: 'cron',
+9 verbose parsed url   href: 'cron' }
+10 silly lockFile 02f91914-cron cron
+11 error Error: Attempt to unlock cron, which hasn't been locked
+11 error     at unlock (/usr/lib/node_modules/npm/lib/utils/locker.js:44:11)
+11 error     at cb (/usr/lib/node_modules/npm/lib/cache/add-local.js:30:5)
+11 error     at /usr/lib/node_modules/npm/lib/cache/add-local.js:47:20
+11 error     at /usr/lib/node_modules/npm/lib/utils/locker.js:22:20
+11 error     at /usr/lib/node_modules/npm/node_modules/inflight/inflight.js:22:7
+11 error     at Array.forEach (native)
+11 error     at res (/usr/lib/node_modules/npm/node_modules/inflight/inflight.js:21:9)
+11 error     at f (/usr/lib/node_modules/npm/node_modules/once/once.js:16:25)
+11 error     at afterMkdir (/usr/lib/node_modules/npm/lib/cache/get-stat.js:53:14)
+11 error     at /usr/lib/node_modules/npm/node_modules/mkdirp/index.js:46:53
+12 error If you need help, you may report this *entire* log,
+12 error including the npm and node versions, at:
+12 error     <http://github.com/npm/npm/issues>
+13 error System Linux 3.2.0-4-amd64
+14 error command "/usr/bin/node" "/usr/bin/npm" "install" "cron"
+15 error cwd /public/projectepti
+16 error node -v v0.10.38
+17 error npm -v 1.4.28
+18 verbose exit [ 1, true ]
