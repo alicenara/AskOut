@@ -60,6 +60,6 @@ app.use('/api', apiRoutes);
 // start the server
 app.listen(config.port);*/
 app.use('/api', eventRouter);
-app.listen(80);
+app.listen(8080);
 //console.log('1337 leet lol is the magic port!');
 console.log('server on');
