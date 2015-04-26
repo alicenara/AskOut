@@ -6,6 +6,7 @@ var mongoose = require('mongoose');
 //var bodyParser = require ('body-parser');
 var path = require('path');
 //var config = require('./config');
+var Event = require('./app/models/event');
 
 var app = express();
 
@@ -13,11 +14,25 @@ var app = express();
 * Connect to the DB
 */
 //mongoose.connect(config.database);
+mongoose.connect('mongodb://localhost/askout');
 
 
 // send our index.html file to the user for the home page <- sha de canviar!
 app.get('/', function(req, res) {
 res.sendFile(path.join(__dirname + '/index.html'));
+});
+
+var eventRouter = express.Router();
+
+eventRouter.route('/events')
+  .get(function(req,res){
+    Event.find(function(err,events){
+      if(err) res.send(err);
+
+      //res.send('ponytiem');
+      res.json(events);
+     });
+    //res.send('Hee33ys');
 });
 
 /*
@@ -41,8 +56,10 @@ Routes examples, not required -> admin
 app.use('/admin', adminRouter);
 app.use('/api', apiRoutes);
 
+
 // start the server
 app.listen(config.port);*/
+app.use('/api', eventRouter);
 app.listen(80);
 //console.log('1337 leet lol is the magic port!');
 console.log('server on');
