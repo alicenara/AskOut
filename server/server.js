@@ -20,12 +20,13 @@ app.get('/', function(req, res) {
 res.sendFile(path.join(__dirname + '/index.html'));
 });
 
+/*
 // prova del getData!
 app.get('/getData',function(req,res){
     var getData = require('./getData');
   res.json(getData);
 });
-
+*/
 /*************************************
 * API Routes!
 *************************************/
