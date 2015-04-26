@@ -14,6 +14,8 @@ function doJob() {
 	var d = new Date();
 	var fs = require('fs');
    	fs.appendFile('./test', weekday[d.getDay()] + "\n", function(err) {});
+
+    //El codi del get open data va aqui lol
 }
 
 var cronJob = cron.job("0 0 0 * * *", function() {

@@ -15,9 +15,15 @@ var app = express();
 mongoose.connect(config.database);
 
 
-// send our index.html file to the user for the home page
+// send our index.html file to the user for the home page <- sha de canviar!
 app.get('/', function(req, res) {
 res.sendFile(path.join(__dirname + '/index.html'));
+});
+
+// prova del getData!
+app.get('/getData',function(req,res){
+    var getData = require('./getData');
+  res.json(getData);
 });
 
 /*************************************

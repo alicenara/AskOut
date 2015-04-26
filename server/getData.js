@@ -1,5 +1,5 @@
 module.exports = {
-	getDataBCN: function () {
+	//getDataBCN: function () {
 		/*
 		var http = require("http");
 		var req = http.get("http://w10.bcn.es/APPS/asiasiacache/peticioXmlAsia?id=199", function(res) {
@@ -15,7 +15,7 @@ module.exports = {
 		});
 		return true;
 		*/
-		getOpenData();
+		return getOpenData();
 		/*var fs = require("fs");
 		fs.readFile('example.xml', function(err, data) {
 			if (err) console.log(err);
@@ -31,10 +31,10 @@ module.exports = {
 				if (err) console.log(err);
 			});
 		});*/
-	},
+	/*},
 	bar: function (xml) {
 		return xml2json(xml);
-	}
+	}*/
 };
 
 function getOpenData() {
@@ -63,7 +63,7 @@ function getOpenData() {
             console.log(xml);
 		});
 	})/*.pipe(iconv).pipe(fs.createWriteStream("pene.xml"))*/;
-	return true;
+	return xml;
 }
 
 /*
