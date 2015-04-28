@@ -34,7 +34,7 @@ module.exports = function(app,express) {
         });
 
         /* Post is not necessary due to we only add events with our script, but I want to do the api for future features */
-        .post(function(req,res){
+        /*.post(function(req,res){
             var e = new Event();
             e.data_inici = req.body.data_inici;
             e.data_final = req.body.data_final;
