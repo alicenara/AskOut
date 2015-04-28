@@ -49,16 +49,16 @@ app.get('/getData',function(req,res){
 /************************************
 Routes examples, not required -> admin
 *************************************/
-/*var adminRouter = require('./app/routes/admin')(app,express);
+var adminRouter = require('./app/routes/admin')(app,express);
 
 // apply the routes to our application
 app.use('/admin', adminRouter);
-app.use('/api', apiRoutes);
+//app.use('/api', apiRoutes);
 
 
 // start the server
-app.listen(config.port);*/
+app.listen(config.port);
 app.use('/api', eventRouter);
-app.listen(8080);
+//app.listen(8080);
 //console.log('1337 leet lol is the magic port!');
 console.log('server on');
