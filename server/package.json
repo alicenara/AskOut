@@ -19,6 +19,7 @@
   "author": "PTI Team LAlbertEnsMataMolt",
   "license": "UNIX",
   "dependencies": {
+    "body-parser": "^1.12.3",
     "cron": "^1.0.9",
     "express": "^4.12.3",
     "mongoose": "^4.0.1",
