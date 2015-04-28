@@ -44,13 +44,14 @@ app.get('/getData',function(req,res){
 /*************************************
 * API Routes!
 *************************************/
+console.log("ara va");
 var apiRoutes = require('./app/routes/apis')(app,express);
 
 /************************************
 Routes examples, not required -> admin
 *************************************/
 var adminRouter = require('./app/routes/admin')(app,express);
-
+console.log("ara no va");
 // apply the routes to our application
 app.use('/admin', adminRouter);
 app.use('/api', apiRoutes);
