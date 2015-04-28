@@ -8,7 +8,7 @@ var User = require('../models/user');
 module.exports = function(app,express) {
     var apiRouter = express.Router();
 
-    apiRouter.use(function(req, res, next) {
+    /*apiRouter.use(function(req, res, next) {
 
         // log each request to the console
         console.log(req.method, req.url);
@@ -24,7 +24,7 @@ module.exports = function(app,express) {
     /********************************************************************************
      Events API! :D
     ********************************************************************************/
-    apiRouter.route('/events')
+    /*apiRouter.route('/events')
         .get(function(req,res){
             Event.find(function(err,events){
                 if(err) res.send(err);
@@ -34,7 +34,7 @@ module.exports = function(app,express) {
         });
 
         /* Post is not necessary due to we only add events with our script, but I want to do the api for future features */
-        .post(function(req,res){
+       /* .post(function(req,res){
             var e = new Event();
             e.data_inici = req.body.data_inici;
             e.data_final = req.body.data_final;
@@ -73,7 +73,7 @@ module.exports = function(app,express) {
      Users API! :D
     ********************************************************************************/
 
-    apiRouter.route('/users')
+   /* apiRouter.route('/users')
         .get(function(req,res){
             User.find(function(err,users){
                 if(err) res.send(err);
@@ -92,7 +92,7 @@ module.exports = function(app,express) {
                 res.json("User created");
             });
         });
-    
+    */
     return apiRouter;
 }
 
