@@ -6,7 +6,7 @@ var mongoose = require('mongoose');
 var bodyParser = require ('body-parser');
 var path = require('path');
 var config = require('./config');
-var Event = require('./app/models/event');
+//var Event = require('./app/models/event');
 
 var app = express();
 
@@ -21,7 +21,7 @@ app.get('/', function(req, res) {
 res.sendFile(path.join(__dirname + '/index.html'));
 });
 
-var eventRouter = express.Router();
+/*var eventRouter = express.Router();
 
 eventRouter.route('/events')
   .get(function(req,res){
@@ -33,7 +33,7 @@ eventRouter.route('/events')
      });
     //res.send('Hee33ys');
 });
-
+*/
 /*
 // prova del getData!
 app.get('/getData',function(req,res){
@@ -59,6 +59,6 @@ app.use('/api', apiRoutes);
 // start the server
 app.listen(config.port);
 //app.use('/api', eventRouter);
-//app.listen(8080);
+
 //console.log('1337 leet lol is the magic port!');
 console.log('server on');
