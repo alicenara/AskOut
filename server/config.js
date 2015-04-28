@@ -1,5 +1,5 @@
 module.exports = {
-'port': 80,
+'port': 8080,
 'database': 'mongodb://localhost/askout',
 'secret': 'peraranoelnecessitemperohohauremdimplementarD:'
 };
