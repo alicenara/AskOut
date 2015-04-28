@@ -3,9 +3,9 @@
 /* calling the packages */
 var express = require('express');
 var mongoose = require('mongoose');
-//var bodyParser = require ('body-parser');
+var bodyParser = require ('body-parser');
 var path = require('path');
-//var config = require('./config');
+var config = require('./config');
 var Event = require('./app/models/event');
 
 var app = express();
@@ -13,8 +13,7 @@ var app = express();
 /*
 * Connect to the DB
 */
-//mongoose.connect(config.database);
-mongoose.connect('mongodb://localhost/askout');
+mongoose.connect(config.database);
 
 
 // send our index.html file to the user for the home page <- sha de canviar!
