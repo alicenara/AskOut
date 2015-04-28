@@ -8,6 +8,15 @@ var User = require('../models/user');
 module.exports = function(app,express) {
     var apiRouter = express.Router();
 
+    apiRouter.use(function(req, res, next) {
+
+        // log each request to the console
+        console.log(req.method, req.url);
+
+        // continue doing what we were doing and go to the route
+        next();
+    });
+
     apiRouter.get('/',function(req,res) {
         res.json("Apis main page");
     });
@@ -15,7 +24,7 @@ module.exports = function(app,express) {
     /********************************************************************************
      Events API! :D
     ********************************************************************************/
-    apiRouter.route('/events'){
+    apiRouter.route('/events')
         .get(function(req,res){
             Event.find(function(err,events){
                 if(err) res.send(err);
@@ -38,7 +47,7 @@ module.exports = function(app,express) {
                 res.json("Event created");
             });
         });
-    }
+    
 
     /*
     eventRouter.route('/postEvents')
@@ -64,7 +73,7 @@ module.exports = function(app,express) {
      Users API! :D
     ********************************************************************************/
 
-    apiRouter.route('/users'){
+    apiRouter.route('/users')
         .get(function(req,res){
             User.find(function(err,users){
                 if(err) res.send(err);
@@ -83,7 +92,7 @@ module.exports = function(app,express) {
                 res.json("User created");
             });
         });
-    }
+    
     return apiRouter;
 }
 
