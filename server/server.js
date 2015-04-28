@@ -49,10 +49,10 @@ app.get('/getData',function(req,res){
 /************************************
 Routes examples, not required -> admin
 *************************************/
-//var adminRouter = require('./app/routes/admin')(app,express);
+var adminRouter = require('./app/routes/admin')(app,express);
 
 // apply the routes to our application
-//app.use('/admin', adminRouter);
+app.use('/admin', adminRouter);
 //app.use('/api', apiRoutes);
 
 
