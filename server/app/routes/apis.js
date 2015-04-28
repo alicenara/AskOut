@@ -73,7 +73,7 @@ module.exports = function(app,express) {
      Users API! :D
     ********************************************************************************/
 
-   /* apiRouter.route('/users')
+    apiRouter.route('/users')
         .get(function(req,res){
             User.find(function(err,users){
                 if(err) res.send(err);
@@ -82,7 +82,7 @@ module.exports = function(app,express) {
             });
         });
 
-        .post(function(req,res){
+       /* .post(function(req,res){
             var u = new User();
             u.fbToken = req.body.fbToken;
             u.privacitat = req.body.privacitat;
