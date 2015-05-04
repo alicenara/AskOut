@@ -11,11 +11,13 @@ weekday[5] = "Friday";
 weekday[6] = "Saturday";
 
 function doJob() {
-	var d = new Date();
+	/*var d = new Date();
 	var fs = require('fs');
    	fs.appendFile('./test', weekday[d.getDay()] + "\n", function(err) {});
 
     //El codi del get open data va aqui lol
+  */
+  var saveData = require('./saveData');
 }
 
 var cronJob = cron.job("0 0 0 * * *", function() {

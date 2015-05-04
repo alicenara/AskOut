@@ -6,6 +6,7 @@ var EventSchema = new mongoose.Schema({
   data_final: Date,
   titol: String,
   descripcio: String,
+  categoria: String,
   web: String,
   baixa: Date
 });

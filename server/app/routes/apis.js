@@ -31,15 +31,16 @@ module.exports = function(app,express) {
 
                 res.json(events);
             });
-        });
+        })
 
         /* Post is not necessary due to we only add events with our script, but I want to do the api for future features */
-        /*.post(function(req,res){
+        .post(function(req,res){
             var e = new Event();
             e.data_inici = req.body.data_inici;
             e.data_final = req.body.data_final;
             e.titol = req.body.titol;
             e.descripcio = req.body.descripcio;
+            e.categoria = req.body.categoria;
             e.web = req.body.web;
 
             e.save(function(err){
@@ -47,10 +48,21 @@ module.exports = function(app,express) {
                 res.json("Event created");
             });
         });
+
+    apiRouter.route('/events/:categoria')
+        // get the event with that categoria
+        .get(function(req, res) {
+            //res.send('{categoria : '+req.params.categoria+'}');
+            Event.find({categoria : req.params.categoria }, function(err, user) {
+            if (err) res.send(err);
+            // return that user
+            res.json(user);
+            });
+        });
     
 
-    /*
-    eventRouter.route('/postEvents')
+    
+    apiRouter.route('/postEvents')
       .get(function(req,res){
         var event = new Event();
         
@@ -58,6 +70,7 @@ module.exports = function(app,express) {
         event.data_final = new Date();
         event.titol = "primer event";
         event.descripcio = "descripcio cutre";
+        event.categoria = "esport";
         event.web = "who knows";
 
         event.save(function(err) { 
@@ -66,7 +79,7 @@ module.exports = function(app,express) {
           }
           res.send("done");
         });    
-      }); */
+      }); 
 
 
     /********************************************************************************
@@ -80,9 +93,9 @@ module.exports = function(app,express) {
 
                 res.json(users);
             });
-        });
+        })
 
-       /* .post(function(req,res){
+        .post(function(req,res){
             var u = new User();
             u.fbToken = req.body.fbToken;
             u.privacitat = req.body.privacitat;
@@ -92,7 +105,7 @@ module.exports = function(app,express) {
                 res.json("User created");
             });
         });
-    */
+    
     return apiRouter;
 }
 

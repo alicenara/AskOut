@@ -1,0 +1,136 @@
+body { 
+	padding: 0; 
+	margin: 0; 
+	width: 100%;
+	background-color: #232325;
+	font-family: fontAwesome;
+}
+
+a {
+	text-decoration: none;
+	color: #232325;
+	cursor: pointer;
+}
+
+a:hover {
+	color: #112c63;
+}
+
+.header { 
+	width:90%;
+	height: 60px;
+	line-height: 60px;
+	padding: 0 5%;
+	float: left;
+	position: relative;
+}
+
+.footer {
+	width:90%;
+	height: 30px;
+	line-height: 30px;
+	padding: 0 5%;
+	float: left;
+	position: relative;
+	text-align: right;
+	color: #f2f2f2;
+}
+
+.logo {
+	font-size: 32px;
+	color: #f2f2f2;
+	float: left;
+	position: relative;
+}
+
+.social {
+	float: right;
+	position: relative;
+}
+
+.social .navLink {
+	font-size: 26px;
+	color: #f2f2f2;
+	padding: 0 15px;
+}
+
+.bigImage {
+	background-image: url(../img/bg.jpg);
+	background-size: 100% auto;
+	background-position: center;
+	height: 200px;
+	padding: 150px 0;
+	width: 100%;
+	float: left;
+	line-height: 50px;
+	font-size: 42px;
+	text-align: center;
+	color: #F2F4F5;
+	text-shadow: -1px -1px 2px #000, 1px -1px 2px #000, -1px 1px 2px #000, 1px 1px 2px #000; 
+}
+
+.content {
+	float: left;
+	position: relative;
+	width: 90%;
+	padding: 0 5%;
+	text-align: center;
+}
+
+.contentBig {
+	float: left;
+	position: relative;
+	width: 90%;
+	padding: 0 5%;
+	text-align: center;
+	background-color: #f2f2f2;
+	text-align: center;
+}
+
+.boxImg {
+	width: 250px;
+	height: 150px;
+	display: inline-block;
+	position: relative;
+	margin: 25px;
+	background-color: #232323;
+	border-radius: 5px;
+}
+
+.boxImg .text {
+	height: 30px;
+	line-height: 30px;
+	text-align: center;
+	font-size: #232325;
+	font-size: 20px;
+	color: #f2f2f2;
+}
+
+.boxImg img {
+	border-radius: 5px;
+	max-width: 250px;
+	max-height: 120px;
+}
+
+.box {
+	width: 230px;
+	height: 130px;
+	display: inline-block;
+	position: relative;
+	margin: 25px;
+	padding: 10px;
+	background-color: #f2f2f2;
+	border-radius: 5px;
+	color: #232325;
+}
+
+.box .in {
+	width:100%;
+	height:100%;
+	float: left;
+	position: relative;
+	text-align: center;
+}
+.socialPoint p{
+	margin-bottom: 12px;
+}

@@ -14,10 +14,12 @@ var app = express();
 */
 mongoose.connect(config.database);
 
+// set the public folder to serve public assets
+app.use(express.static(__dirname + '/public'));
 
-// send our index.html file to the user for the home page <- sha de canviar!
-app.get('/', function(req, res) {
-res.sendFile(path.join(__dirname + '/index.html'));
+// set up our one route to the index.html file
+app.get('*', function(req, res) {
+res.sendFile(path.join(__dirname + '/public/index.html'));
 });
 
 /*
