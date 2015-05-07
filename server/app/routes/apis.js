@@ -49,14 +49,14 @@ module.exports = function(app,express) {
             });
         });
 
-    apiRouter.route('/events/:categoria')
+    apiRouter.route('/events/:categories')
         // get the event with that categoria
         .get(function(req, res) {
             //res.send('{categoria : '+req.params.categoria+'}');
-            Event.find({categoria : req.params.categoria }, function(err, user) {
+            Event.find({categories : req.params.categories }, function(err, result) {
             if (err) res.send(err);
             // return that user
-            res.json(user);
+            res.json(result);
             });
         });
     
@@ -86,7 +86,7 @@ module.exports = function(app,express) {
      Users API! :D
     ********************************************************************************/
 
-    apiRouter.route('/users')
+    apiRouter.route('/user')
         .get(function(req,res){
             User.find(function(err,users){
                 if(err) res.send(err);
