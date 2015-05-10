@@ -14,6 +14,7 @@ var EventSchema = new mongoose.Schema({
   latitude: String,
   longitude: String,
   categories: Array,
+  categoria_general: String,
   baixa: Date
 });
 

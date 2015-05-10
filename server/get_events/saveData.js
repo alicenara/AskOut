@@ -33,7 +33,20 @@ module.exports = function(eventsArray, callback) {
     e.categories = eventsArray[events].clasificacions;
 
     e.save(function(err){
-      if (err){ /*Guardar en logs*/ }
+      var logs = require('../saveLogs');
+      if (err){         
+        logs("DesarBD","Hi ha hagut l'error"+err, function(log){
+          log.save(function(err){
+          if (err){ /*No ha passat res*/ }
+          });
+        });
+       }else{
+        logs("DesarBD","S'han desat les dades a la BD", function(log){
+          log.save(function(err){
+          if (err){ /*No ha passat res*/ }
+          });
+        });
+       }
     });
   }
   callback("done");
