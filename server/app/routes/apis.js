@@ -30,7 +30,7 @@ module.exports = function(app,express) {
                 if(err) res.send(err);
 
                 res.json(events);
-            });//.limit(15);
+            }).limit(200);//.limit(15);
         })
 
         /* Post is not necessary due to we only add events with our script, but I want to do the api for future features */
@@ -57,7 +57,7 @@ module.exports = function(app,express) {
             if (err) res.send(err);
             // return that user
             res.json(result);
-            });
+            }).limit(200);
         });
     
 
