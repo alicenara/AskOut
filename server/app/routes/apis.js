@@ -49,11 +49,11 @@ module.exports = function(app,express) {
             });
         });
 
-    apiRouter.route('/events/:categories')
+    apiRouter.route('/events/:categories_generals')
         // get the event with that categoria
         .get(function(req, res) {
             //res.send('{categoria : '+req.params.categoria+'}');
-            Event.find({categories : req.params.categories }, function(err, result) {
+            Event.find({categories_generals : req.params.categories_generals }, function(err, result) {
             if (err) res.send(err);
             // return that user
             res.json(result);
