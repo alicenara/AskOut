@@ -18,7 +18,7 @@ module.exports = function(app,express) {
     });
 
     apiRouter.get('/',function(req,res) {
-        res.json("Apis main page");
+        res.send("Apis main page <br> Get all events -> GET /events <br> Insert events -> POST /events <br> Get events per categoria general -> GET /events/:categories_generals <br> Get all users -> GET /users <br> Get interessos per ID user -> GET /users/:idUser");
     });
 
     /********************************************************************************
@@ -61,7 +61,7 @@ module.exports = function(app,express) {
         });
     
 
-    
+    /*
     apiRouter.route('/postEvents')
       .get(function(req,res){
         var event = new Event();
@@ -79,7 +79,7 @@ module.exports = function(app,express) {
           }
           res.send("done");
         });    
-      }); 
+      }); */
 
 
     /********************************************************************************
@@ -114,6 +114,7 @@ module.exports = function(app,express) {
                 res.json(users);
             });
         });
+    /*
     apiRouter.route('/users/:idUser/:interes')
         .post(function(req,res){
             User.find({_id : req.params.idUser, 'interessos.titol' : req.params.interes},'-_id interessos.interes', function(err,users){
@@ -121,7 +122,7 @@ module.exports = function(app,express) {
 
                 res.json(users);
             });
-        });
+        });*/
     
     return apiRouter;
 }
