@@ -3,8 +3,12 @@ var Event = require('./event');
 
 //Event schema
 var UserSchema = new mongoose.Schema({
-  fbToken: Date,
+  fbToken: String,
   privacitat: String,
+  interessos: [{
+    titol: String,
+    interes: Boolean
+  }],
   events: [Event],
   baixa: Date
 });

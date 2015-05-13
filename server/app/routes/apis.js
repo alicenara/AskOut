@@ -86,7 +86,7 @@ module.exports = function(app,express) {
      Users API! :D
     ********************************************************************************/
 
-    apiRouter.route('/user')
+    apiRouter.route('/users')
         .get(function(req,res){
             User.find(function(err,users){
                 if(err) res.send(err);
@@ -103,6 +103,23 @@ module.exports = function(app,express) {
             u.save(function(err){
                 if (err) res.send(err);
                 res.json("User created");
+            });
+        });
+
+    apiRouter.route('/users/:idUser')
+        .get(function(req,res){
+                User.find({_id : req.params.idUser},'-_id interessos', function(err,users){
+                if(err) res.send(err);
+
+                res.json(users);
+            });
+        });
+    apiRouter.route('/users/:idUser/:interes')
+        .post(function(req,res){
+            User.find({_id : req.params.idUser, 'interessos.titol' : req.params.interes},'-_id interessos.interes', function(err,users){
+                if(err) res.send(err);
+
+                res.json(users);
             });
         });
     
