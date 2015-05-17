@@ -99,7 +99,7 @@ module.exports = function(app,express) {
             var u = new User();
             u.fbToken = req.body.fbToken;
             u.interessos = req.body.interessos;
-
+            u.events = [];
             u.save(function(err){
                 if (err) res.send(err);
                 res.json("User created");
@@ -119,6 +119,37 @@ module.exports = function(app,express) {
                 if(err) res.send(err);
 
                 res.json(users);
+            });
+        });
+
+    apiRouter.route('/anarEvent/:idUser/:idEvent')
+        .get(function(req,res){
+            User.findOne({_id : req.params.idUser}, function(err,usuari){
+                if(err) res.send(err);
+                var arrayEvents = usuari.events;
+                var i = 0;
+                while (arrayEvents[i]!== req.params.idEvent && i < arrayEvents.length){
+                    i++;
+                }
+                if (i>=arrayEvents.length){
+                    usuari.events.push(req.params.idEvent);                    
+                    usuari.save(function(err){
+                        if (err) res.send(err);
+                        res.send("desat");
+                    });
+                }else{
+                    res.send("trobat");
+                }
+            });
+        });
+
+    apiRouter.route('/desarUser/:fbToken')
+        .get(function(req,res){
+            var u = new User();
+            u.fbToken = req.params.fbToken;
+            u.save(function(err){
+                if (err) res.send(err);
+                res.send(u._id);
             });
         });
     /*

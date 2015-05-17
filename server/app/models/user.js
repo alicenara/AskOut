@@ -1,5 +1,4 @@
 var mongoose = require('mongoose');
-var Event = require('./event');
 
 //Event schema
 var UserSchema = new mongoose.Schema({
@@ -9,7 +8,7 @@ var UserSchema = new mongoose.Schema({
     titol: String,
     interes: Boolean
   }],
-  events: [Event],
+  events: Array,
   baixa: Date
 });
 
