@@ -18,7 +18,7 @@ module.exports = function(app,express) {
     });
 
     apiRouter.get('/',function(req,res) {
-        res.send("Apis main page <br> Get all events -> GET /events <br> Insert events -> POST /events <br> Get events per categoria general -> GET /events/:categories_generals <br> Get all users -> GET /users <br> Get interessos per ID user -> GET /users/:idUser <br> Save fbToken and get ID -> GET /desarUser/:fbToken <br> A user goes to an event -> GET /anarEvent/:idUser/:idEvent");
+        res.send("Apis main page <br> Get all events -> GET /events <br> Get today's events -> GET /eventsAvui <br> Insert events -> POST /events <br> Get events per categoria general -> GET /events/:categories_generals <br> Get all users -> GET /users <br> Get interessos per ID user -> GET /users/:idUser <br> Save fbToken and get ID -> GET /desarUser/:fbToken <br> A user goes to an event -> GET /anarEvent/:idUser/:idEvent");
     });
 
     /********************************************************************************
@@ -26,7 +26,10 @@ module.exports = function(app,express) {
     ********************************************************************************/
     apiRouter.route('/events')
         .get(function(req,res){
-            Event.find(function(err,events){
+            var today = new Date();
+            var tomorrow = today;
+            tomorrow.setDate(tomorrow.getDate()+1);
+            Event.find({"data_inici": {"$gte": tomorrow}},function(err,events){
                 if(err) res.send(err);
 
                 res.json(events);
@@ -47,6 +50,18 @@ module.exports = function(app,express) {
                 if (err) res.send(err);
                 res.json("Event created");
             });
+        });
+
+    apiRouter.route('/eventsAvui')
+        .get(function(req,res){
+            var today = new Date();
+            var tomorrow = today;
+            tomorrow.setDate(tomorrow.getDate()+1);
+            Event.find({"data_inici": {"$gte": today, "$lt": tomorrow}},function(err,events){
+                if(err) res.send(err);
+
+                res.json(events);
+            }).limit(200);//.limit(15);
         });
 
     apiRouter.route('/events/:categories_generals')
