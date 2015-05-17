@@ -5,7 +5,7 @@ function doJob() {
   getData.getDataBCN();
 }
 
-var cronJob = cron.job("0 0 * * * *", function() {
+var cronJob = cron.job("00 00 * * * *", function() {
         doJob();
 });     
 cronJob.start();

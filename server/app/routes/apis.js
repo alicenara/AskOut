@@ -98,7 +98,7 @@ module.exports = function(app,express) {
         .post(function(req,res){
             var u = new User();
             u.fbToken = req.body.fbToken;
-            u.privacitat = req.body.privacitat;
+            u.interessos = req.body.interessos;
 
             u.save(function(err){
                 if (err) res.send(err);
@@ -108,6 +108,13 @@ module.exports = function(app,express) {
 
     apiRouter.route('/users/:idUser')
         .get(function(req,res){
+            User.find({_id : req.params.idUser},'-_id interessos', function(err,users){
+                if(err) res.send(err);
+                res.json(users);
+            });
+        })
+
+        .post(function(req,res){
                 User.find({_id : req.params.idUser},'-_id interessos', function(err,users){
                 if(err) res.send(err);
 

@@ -6,6 +6,7 @@
 var mongoose = require('mongoose');
 var config = require('../config');
 var Event = require('../app/models/event');
+var validDate = new Date();
 
 module.exports = function(finalData, callback) {
   /*
@@ -22,10 +23,10 @@ module.exports = function(finalData, callback) {
       if(eventsArray[events] != undefined){
         var e = new Event();
         e._id = eventsArray[events]._id;
-        e.data_inici = transformTime(eventsArray[events].dataIni, 1, true);
-        e.data_final = transformTime(eventsArray[events].dataFi, eventsArray[events].dataIni, false);
+        e.data_inici = transformTime(eventsArray[events].dataIni, true);
+        e.data_final = transformTime(eventsArray[events].dataFi, false);
         e.nom = eventsArray[events].nom;
-        e.nomLloc = eventsArray[events].nomLloc;
+        e.nomLloc = (eventsArray[events].nomLloc).replace('*','');;
         e.carrer = eventsArray[events].carrer;
         e.numero = eventsArray[events].numero;
         e.districte = eventsArray[events].districte;
@@ -58,45 +59,40 @@ module.exports = function(finalData, callback) {
   callback("done");
 }
 
-function transformTime(data, dataIni, isDate){
-  if(isDate){
-    if(data!="" && data!==undefined){
-      var dia = data.split('/');
-      var any = dia[2].split(' ');
+function transformTime(data, isIDate){
+  //First we need to check if we're parsing dataIni or not
+  if(isIDate){
+    var novaData = "";
+    //as sometimes data is null or undefined, we need to take it into account
+    if(data !== null && data != "" && data !== undefined){
+      var dia = data.split('/'); // dia = [12,05,2015 9.00]
+      var any = dia[2].split(' '); // any = [2015, 9.00]
       var hora = [];
-      if(any[1]!==undefined && any[1].indexOf(".")>=0){
+      //sometimes no hour is defined, so we need to check that too
+      if(any[1] !== null && any[1] !== undefined && any[1].indexOf(".") >= 0){
         hora = any[1].split('.');
       }else{
-        hora[0] = 0;
-        hora[1] = 0;
+        hora = [0,0];
       }
-      
-      var novaData = new Date(any[0],dia[1]-1,dia[0],hora[0],hora[1]);
-    }else{
-      var novaData = new Date();
+      //Then we need to check if it's a valid date and then we can save it:
+      if(any[0] != "9999" && any[0] != "1000"){
+        novaData = new Date(any[0],dia[1]-1,dia[0],hora[0],hora[1]);
+        validDate = novaData;
+      }      
     }
-    return novaData;
+    if(novaData==""){
+      novaData = validDate;
+    }
+
   }else{
-    if(data!=""&& data!==undefined){
-      var dia = dataIni.split('/');
-      var any = dia[2].split(' ');
-      var data = data.split('.');
-      var novaData = new Date(any[0],dia[1]-1,dia[0],data[0],data[1]);
+    //Sometimes there's no data_fi
+    if(data !== null && data != "" && data !== undefined){
+      var data = data.split('/');
+      novaData = new Date(data[2],data[1]-1,data[0],0,0);
     }else{
-      if(dataIni!==undefined){
-        var dia = dataIni.split('/');
-        var any = dia[2].split(' ');
-        var hora = [];
-      if(any[1]!==undefined && any[1].indexOf(".")>=0){
-        hora = any[1].split('.');
-      }else{
-        hora[0] = 0;
-        hora[1] = 0;
-      }
-        var novaData = new Date(any[0],dia[1]-1,dia[0],hora[0],hora[1]);
-      }else 
-        novaData = new Date();
+      novaData = validDate;
+      //novaData.setHours(novaData.getHours()+1);
     }
-    return novaData;
   }
+  return novaData;
 }

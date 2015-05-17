@@ -72,11 +72,11 @@ function transformData(json) {
 			aux.lon = obj[i].lloc_simple[0].adreca_simple[0].coordenades[0].googleMaps[0].$.lon;
 		}	
 		aux.dataIni = obj[i].data[0].data_proper_acte[0];
-		if (obj[i].hasOwnProperty('hora_fi')) {
+		/*if (obj[i].hasOwnProperty('hora_fi')) {
 			aux.dataFi = obj[i].data[0].hora_fi[0];
 		} else if (obj[i].hasOwnProperty('data_fi')) {
-			aux.dataFi = obj[i].data[0].data_fi[0];
-		}
+			*/aux.dataFi = obj[i].data[0].data_fi[0];
+		//}
 		var foobar = obj[i].classificacions[0].nivell;
 		aux.clasificacions = [];
 		aux.categories_generals = [];
