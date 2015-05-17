@@ -18,7 +18,7 @@ module.exports = function(app,express) {
     });
 
     apiRouter.get('/',function(req,res) {
-        res.send("Apis main page <br> Get all events -> GET /events <br> Insert events -> POST /events <br> Get events per categoria general -> GET /events/:categories_generals <br> Get all users -> GET /users <br> Get interessos per ID user -> GET /users/:idUser");
+        res.send("Apis main page <br> Get all events -> GET /events <br> Insert events -> POST /events <br> Get events per categoria general -> GET /events/:categories_generals <br> Get all users -> GET /users <br> Get interessos per ID user -> GET /users/:idUser <br> Save fbToken and get ID -> GET /desarUser/:fbToken <br> A user goes to an event -> GET /anarEvent/:idUser/:idEvent");
     });
 
     /********************************************************************************
@@ -145,12 +145,19 @@ module.exports = function(app,express) {
 
     apiRouter.route('/desarUser/:fbToken')
         .get(function(req,res){
-            var u = new User();
-            u.fbToken = req.params.fbToken;
-            u.save(function(err){
-                if (err) res.send(err);
-                res.send(u._id);
-            });
+            User.findOne({fbToken: req.params.fbToken}, function(err,usuari){
+                if(err) res.send(err);
+                if (usuari !== null && usuari !== undefined && usuari._id !== null && usuari._id !== undefined){
+                    res.send(usuari._id);
+                }else{
+                    var u = new User();
+                    u.fbToken = req.params.fbToken;
+                    u.save(function(err){
+                        if (err) res.send(err);
+                        res.send(u._id);
+                    });
+                }                
+            });             
         });
     /*
     apiRouter.route('/users/:idUser/:interes')
