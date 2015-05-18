@@ -157,7 +157,7 @@ module.exports = function(app,express) {
                     usuari.interessos[i].interes = req.params.bool;
                 }
                 usuari.save(function(err){
-                    if (err) res.send(err);  api
+                    if (err) res.send(err);
                     //res.send("done");
                 });
             });
