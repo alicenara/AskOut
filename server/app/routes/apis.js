@@ -166,9 +166,10 @@ module.exports = function(app,express) {
     //Add user to event
     apiRouter.route('/anarEvent/:idUser/:idEvent')
         .get(function(req,res){
-            User.findOne({fbToken : req.params.idUser}, function(err,usuari){
-                if(err) res.send(err);
+            User.findOne({_id : req.params.idUser}, function(err,usuari){
+                if(err) res.send(err);   
                 var arrayEvents = usuari.events;
+
                 var i = 0;
                 while (i < arrayEvents.length && arrayEvents[i]!== req.params.idEvent){
                     i++;
