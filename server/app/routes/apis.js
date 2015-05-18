@@ -18,7 +18,7 @@ module.exports = function(app,express) {
     });
 
     apiRouter.get('/',function(req,res) {
-        res.send("Apis main page <br> Get all events -> GET /events <br> Get today's events -> GET /eventsAvui <br> Insert events -> POST /events <br> Get events per categoria general -> GET /events/:categories_generals <br> Get all users -> GET /users <br> Get interessos per ID user -> GET /users/:idUser <br> Save fbToken and get ID -> GET /desarUser/:fbToken <br> A user goes to an event -> GET /anarEvent/:idUser/:idEvent");
+        res.send("Apis main page <br> Get all events -> GET /events <br> Get today's events -> GET /eventsAvui <br> Insert events -> POST /events <br> Get events per categoria general -> GET /events/:categories_generals <br> Get all users -> GET /users <br> Get interessos per ID user -> GET /users/:idUser <br> Save fbToken and get ID -> GET /desarUser/:fbToken <br> A user goes to an event -> GET /anarEvent/:idUser/:idEvent <br> Save interest -> GET /users/:idUser/:interes/:bool");
     });
 
     /********************************************************************************
@@ -101,6 +101,7 @@ module.exports = function(app,express) {
      Users API! :D
     ********************************************************************************/
 
+    //Show all users
     apiRouter.route('/users')
         .get(function(req,res){
             User.find(function(err,users){
@@ -109,7 +110,7 @@ module.exports = function(app,express) {
                 res.json(users);
             });
         })
-
+        //Save users
         .post(function(req,res){
             var u = new User();
             u.fbToken = req.body.fbToken;
@@ -121,43 +122,65 @@ module.exports = function(app,express) {
             });
         });
 
+    //Show interessos users
     apiRouter.route('/users/:idUser')
         .get(function(req,res){
             User.find({_id : req.params.idUser},'-_id interessos', function(err,users){
                 if(err) res.send(err);
                 res.json(users);
             });
-        })
-
-        .post(function(req,res){
-                User.find({_id : req.params.idUser},'-_id interessos', function(err,users){
+        });
+    //Add interessos to user
+    apiRouter.route('/users/:idUser/:interes/:bool')
+        .get(function(req,res){
+            User.findOne({_id : req.params.idUser}, function(err,usuari){
                 if(err) res.send(err);
-
-                res.json(users);
+                var arrayInteressos = usuari.interessos;
+                var i = 0;
+                while (i < arrayInteressos.length && arrayInteressos[i].titol !== req.params.interes){
+                    i++;
+                }
+                if (i>=arrayInteressos.length){                     
+                    usuari.interessos.push({ titol : req.params.interes, interes : req.params.bool });
+                }else{
+                    usuari.interessos[i].interes = req.params.bool;
+                }
+                usuari.save(function(err){
+                    if (err) res.send(err);  
+                    res.send("done");
+                });
             });
         });
 
+    //Add user to event
     apiRouter.route('/anarEvent/:idUser/:idEvent')
         .get(function(req,res){
             User.findOne({_id : req.params.idUser}, function(err,usuari){
                 if(err) res.send(err);
                 var arrayEvents = usuari.events;
                 var i = 0;
-                while (arrayEvents[i]!== req.params.idEvent && i < arrayEvents.length){
+                while (i < arrayEvents.length && arrayEvents[i]!== req.params.idEvent){
                     i++;
                 }
                 if (i>=arrayEvents.length){
                     usuari.events.push(req.params.idEvent);                    
                     usuari.save(function(err){
                         if (err) res.send(err);
-                        res.send("desat");
+                        Event.findOne({_id : req.params.idEvent}, function(err,eventTrobat){
+                            if(err) res.send(err);
+                            eventTrobat.users.push(req.params.idUser);
+                            eventTrobat.save(function(err){
+                                if (err) res.send(err);
+                                res.send("desat");
+                            });
+                        });                        
                     });
                 }else{
                     res.send("trobat");
                 }
             });
         });
-
+    //Add user with fbToken
     apiRouter.route('/desarUser/:fbToken')
         .get(function(req,res){
             User.findOne({fbToken: req.params.fbToken}, function(err,usuari){
@@ -174,15 +197,6 @@ module.exports = function(app,express) {
                 }                
             });             
         });
-    /*
-    apiRouter.route('/users/:idUser/:interes')
-        .post(function(req,res){
-            User.find({_id : req.params.idUser, 'interessos.titol' : req.params.interes},'-_id interessos.interes', function(err,users){
-                if(err) res.send(err);
-
-                res.json(users);
-            });
-        });*/
     
     return apiRouter;
 }

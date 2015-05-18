@@ -5,6 +5,8 @@ var EventSchema = new mongoose.Schema({
   _id: Number,
   data_inici: Date,
   data_final: Date,
+  hora_inici: String,
+  hora_final: String,
   nom: String,
   nomLloc: String,
   carrer: String,
@@ -15,6 +17,7 @@ var EventSchema = new mongoose.Schema({
   longitude: String,
   categories: Array,
   categories_generals: Array,
+  users: Array,
   baixa: Date
 });
 
