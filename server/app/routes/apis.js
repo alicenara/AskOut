@@ -158,7 +158,7 @@ module.exports = function(app,express) {
                 }
                 usuari.save(function(err){
                     if (err) res.send(err);
-                    //res.send("done");
+                    res.send("done");
                 });
             });
         });
@@ -182,7 +182,7 @@ module.exports = function(app,express) {
                             eventTrobat.users.push(req.params.idUser);
                             eventTrobat.save(function(err){
                                 if (err) res.send(err);
-                                //res.send("desat");
+                                res.send("desat");
                             });
                         });                        
                     });
