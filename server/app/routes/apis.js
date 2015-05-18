@@ -121,9 +121,20 @@ module.exports = function(app,express) {
                 res.json("User created");
             });
         });
+     //Show events users
+    apiRouter.route('/userEvents/:idUser')
+        .get(function(req,res){
+            User.findOne({_id : req.params.idUser}, function(err,users){
+                if(err) res.send(err);
+                Event.find({ '_id' : { $in : users.events }}, function(err,events){
+                    if(err) res.send(err);
+                    res.json(events);
+                });
+            });
+        });
 
     //Show interessos users
-    apiRouter.route('/users/:idUser')
+    apiRouter.route('/userInterest/:idUser')
         .get(function(req,res){
             User.find({_id : req.params.idUser},'-_id interessos', function(err,users){
                 if(err) res.send(err);
@@ -146,8 +157,8 @@ module.exports = function(app,express) {
                     usuari.interessos[i].interes = req.params.bool;
                 }
                 usuari.save(function(err){
-                    if (err) res.send(err);  
-                    res.send("done");
+                    if (err) res.send(err);  api
+                    //res.send("done");
                 });
             });
         });
@@ -155,7 +166,7 @@ module.exports = function(app,express) {
     //Add user to event
     apiRouter.route('/anarEvent/:idUser/:idEvent')
         .get(function(req,res){
-            User.findOne({_id : req.params.idUser}, function(err,usuari){
+            User.findOne({fbToken : req.params.idUser}, function(err,usuari){
                 if(err) res.send(err);
                 var arrayEvents = usuari.events;
                 var i = 0;
@@ -171,7 +182,7 @@ module.exports = function(app,express) {
                             eventTrobat.users.push(req.params.idUser);
                             eventTrobat.save(function(err){
                                 if (err) res.send(err);
-                                res.send("desat");
+                                //res.send("desat");
                             });
                         });                        
                     });
