@@ -134,3 +134,23 @@ a:hover {
 .socialPoint p{
 	margin-bottom: 12px;
 }
+
+.box2 {
+	width: 600px;
+	height: 360px;
+	display: inline-block;
+	position: relative;
+	margin: 25px;
+	padding: 10px;
+	background-color: #f2f2f2;
+	border-radius: 5px;
+	color: #232325;
+}
+
+.box2 .in {
+	width: 100%;
+	height: 100%;
+	float: left;
+	position: relative;
+	text-align: left;
+}
