@@ -4,13 +4,13 @@ angctrl.config(['$routeProvider', function ($routeProvider, $locationProvider) {
 	$routeProvider
 		// route for the home page
 		.when('/', {
-			templateUrl: '../../public/home.html',
+			templateUrl: 'home.html',
 			controller: 'mainControler',
 			controllerAs: 'main'
 		})
 		// route for each event
 		.when('/:id/', {
-			templateUrl: '../../public/infoEvents.html',
+			templateUrl: 'infoEvents.html',
 			controller: 'eventControler',
 			controllerAs: 'ectrl'
 		});
