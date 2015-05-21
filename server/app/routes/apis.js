@@ -75,27 +75,37 @@ module.exports = function(app,express) {
             }).limit(200);
         });
     
+    apiRouter.route('/eventUsers/:idEvent')
+        .get(function(req,res){
+            Event.findOne({_id : req.params.idEvent}, function(err,events){
+                if(err) res.send(err);
+                User.find({ '_id' : { $in : events.users }}, function(err,users){
+                    if(err) res.send(err);
+                    res.json(users);
+                });
+            });
+        });
 
-    /*
-    apiRouter.route('/postEvents')
-      .get(function(req,res){
-        var event = new Event();
-        
-        event.data_inici = new Date();
-        event.data_final = new Date();
-        event.titol = "primer event";
-        event.descripcio = "descripcio cutre";
-        event.categoria = "esport";
-        event.web = "who knows";
+    apiRouter.route('/eventUsers/:idEvent')
+        .get(function(req,res){
+            Event.findOne({_id : req.params.idEvent}, function(err,events){
+                if(err) res.send(err);
+                User.find({ '_id' : { $in : events.users }}, function(err,users){
+                    if(err) res.send(err);
+                    res.json(users);
+                });
+            });
+        });
 
-        event.save(function(err) { 
-          if (err) {
-            return res.send(err);
-          }
-          res.send("done");
-        });    
-      }); */
+    /*apiRouter.route('/eventAvuiCat/:categories')
+        .get(function(req,res){
+            var cats = (req.params.categories).split('-');
+            Event.find({ $and:[ {"data_inici": {"$gte": today, "$lt": tomorrow}}, {"categories_generals" : $in { cats }} ]}, function(err,events){
+                if(err) res.send(err);
 
+                res.json(events);
+            }).limit(200);//.limit(15);
+        });*/
 
     /********************************************************************************
      Users API! :D
@@ -136,9 +146,9 @@ module.exports = function(app,express) {
     //Show interessos users
     apiRouter.route('/userInterest/:idUser')
         .get(function(req,res){
-            User.find({_id : req.params.idUser},'-_id interessos', function(err,users){
+            User.findOne({_id : req.params.idUser},function(err,users){
                 if(err) res.send(err);
-                res.json(users);
+                res.json(users.interessos);
             });
         });
     //Add interessos to user
@@ -193,22 +203,38 @@ module.exports = function(app,express) {
             });
         });
     //Add user with fbToken
-    apiRouter.route('/desarUser/:fbToken')
+    /*apiRouter.route('/desarUser/:fbToken')
         .get(function(req,res){
-            User.findOne({fbToken: req.params.fbToken}, function(err,usuari){
-                if(err) res.send(err);
-                if (usuari !== null && usuari !== undefined && usuari._id !== null && usuari._id !== undefined){
-                    res.send(usuari._id);
-                }else{
-                    var u = new User();
-                    u.fbToken = req.params.fbToken;
-                    u.save(function(err){
-                        if (err) res.send(err);
-                        res.send(u._id);
-                    });
-                }                
-            });             
-        });
+            var options = {
+                host: 'graph.facebook.com',
+                port: 443,
+                path: '/app/?access_token='+req.params.fbToken,
+                method: 'GET'
+            };
+            var options2 = {
+                host: 'graph.facebook.com',
+                port: 443,
+                path: '/me?access_token='+req.params.fbToken,
+                method: 'GET'
+            };
+            var comprovarFB = require('./fbConnection');
+            comprovarFB(options,options2,function(resultat){
+                console.log(resultat);
+                User.findOne({fbToken: req.params.fbToken}, function(err,usuari){
+                    if(err) res.send(err);
+                    if (usuari !== null && usuari !== undefined && usuari._id !== null && usuari._id !== undefined){
+                        res.send(usuari._id);
+                    }else{
+                        var u = new User();
+                        u.fbToken = req.params.fbToken;
+                        u.save(function(err){
+                            if (err) res.send(err);
+                            res.send(u._id);
+                        });
+                    }                
+                });            
+            }); 
+        });*/
     
     return apiRouter;
 }
