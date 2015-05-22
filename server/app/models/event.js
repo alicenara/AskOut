@@ -13,8 +13,6 @@ var EventSchema = new mongoose.Schema({
   numero: String,
   districte: String,
   municipi: String,
-  latitude: String,
-  longitude: String,
   categories: Array,
   categories_generals: Array,
   users: Array,
