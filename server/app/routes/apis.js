@@ -227,6 +227,22 @@ module.exports = function(app,express) {
             });
         });
     //Add user with fbToken
+    apiRouter.route('/desarUser/:fbToken')
+        .get(function(req,res){
+            User.findOne({fbToken: req.params.fbToken}, function(err,usuari){
+                if(err) res.send(err);
+                if (usuari !== null && usuari !== undefined && usuari._id !== null && usuari._id !== undefined){
+                    res.send(usuari._id);
+                }else{
+                    var u = new User();
+                    u.fbToken = req.params.fbToken;
+                    u.save(function(err){
+                        if (err) res.send(err);
+                        res.send(u._id);
+                    });
+                }              
+            }); 
+        });
     /*apiRouter.route('/desarUser/:fbToken')
         .get(function(req,res){
             var options = {
