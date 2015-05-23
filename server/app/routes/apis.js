@@ -18,7 +18,7 @@ module.exports = function(app,express) {
     });
 
     apiRouter.get('/',function(req,res) {
-        res.send("Apis main page <br> Get all events -> GET /events <br> Get today's events -> GET /eventsAvui <br> Insert events -> POST /events <br> Get events per categoria general -> GET /events/:categories_generals <br> Get all users -> GET /users <br> Get interessos per ID user -> GET /users/:idUser <br> Save fbToken and get ID -> GET /desarUser/:fbToken <br> A user goes to an event -> GET /anarEvent/:idUser/:idEvent <br> Save interest -> GET /users/:idUser/:interes/:bool");
+        res.send("Apis main page <br> Get all events -> GET /events <br> Get today's events -> GET /eventsAvui <br> Get events dia categoria -> GET /eventsDia/:dia-mes-any/:categoria-categoria-categoria-etc <br> Get users de events -> GET /eventUsers/:idEvent <br> Insert events -> POST /events <br> Get events per categoria general -> GET /events/:categories_generals <br> Get all users -> GET /users <br> Get events user -> GET /userEvents/:idUser <br> Get interessos per ID user -> GET /userInterest/:idUser <br> Save fbToken and get ID -> GET /desarUser/:fbToken <br> A user goes to an event -> GET /anarEvent/:idUser/:idEvent <br> Save interest -> GET /users/:idUser/:interes/:bool");
     });
 
     /********************************************************************************
@@ -26,9 +26,9 @@ module.exports = function(app,express) {
     ********************************************************************************/
     apiRouter.route('/events')
         .get(function(req,res){
-            var today = new Date();
-            var tomorrow = today;
+            var tomorrow = new Date();
             tomorrow.setDate(tomorrow.getDate()+1);
+            tomorrow.setHours(0,0,0,0);
             Event.find({"data_inici": {"$gte": tomorrow}},function(err,events){
                 if(err) res.send(err);
 
@@ -55,13 +55,37 @@ module.exports = function(app,express) {
     apiRouter.route('/eventsAvui')
         .get(function(req,res){
             var today = new Date();
-            var tomorrow = today;
-            tomorrow.setDate(tomorrow.getDate()+1);
-            Event.find({"data_inici": {"$gte": today, "$lt": tomorrow}},function(err,events){
+            today.setHours(1,0,0,0);
+            var tomorrow = new Date();
+            tomorrow.setDate(today.getDate()+1);
+            tomorrow.setHours(1,0,0,0);
+            //res.json(today+" "+tomorrow);
+            Event.find({ data_inici : {$gte: today , $lt: tomorrow }},function(err,events){
                 if(err) res.send(err);
 
                 res.json(events);
-            }).limit(200);//.limit(15);
+            });//.limit(15);
+        });
+
+    apiRouter.route('/eventsDia/:diamesany/:categories')
+        .get(function(req,res){
+            var data = req.params.diamesany;
+            //res.json(data);
+            data = data.split("-");
+            var today = new Date(data[2],data[1]-1,data[0]);
+            today.setHours(1,0,0,0);
+            var tomorrow = new Date();
+            tomorrow.setDate(today.getDate()+1);
+            tomorrow.setHours(1,0,0,0);
+            //res.json(today+" "+tomorrow);
+
+            var cats = req.params.categories;
+            cats = cats.split("-");
+            Event.find({ $and : [ { data_inici : {$gte: today , $lt: tomorrow }}, { categories_generals : { $in : cats }}]},function(err,events){
+                if(err) res.send(err);
+
+                res.json(events);
+            });//.limit(15);
         });
 
     apiRouter.route('/events/:categories_generals')
