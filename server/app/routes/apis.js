@@ -52,6 +52,15 @@ module.exports = function(app,express) {
             });
         });
 
+    apiRouter.route('/esdeveniment/:getId')
+        .get(function(req,res){
+            Event.find({"_id": req.params.getId},function(err,events){
+                if(err) res.send(err);
+
+                res.json(events);
+            });//.limit(15);
+        });
+
     apiRouter.route('/eventsAvui')
         .get(function(req,res){
             var today = new Date();
