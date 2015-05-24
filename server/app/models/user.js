@@ -3,6 +3,7 @@ var mongoose = require('mongoose');
 //Event schema
 var UserSchema = new mongoose.Schema({
   fbToken: String,
+  fbID: String,
   privacitat: String,
   interessos: [{
     titol: String,

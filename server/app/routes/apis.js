@@ -246,6 +246,7 @@ module.exports = function(app,express) {
             });
         });
     //Add user with fbToken
+    /*
     apiRouter.route('/desarUser/:fbToken')
         .get(function(req,res){
             User.findOne({fbToken: req.params.fbToken}, function(err,usuari){
@@ -261,8 +262,8 @@ module.exports = function(app,express) {
                     });
                 }              
             }); 
-        });
-    /*apiRouter.route('/desarUser/:fbToken')
+        });*/
+    apiRouter.route('/desarUser/:fbToken')
         .get(function(req,res){
             var options = {
                 host: 'graph.facebook.com',
@@ -278,22 +279,26 @@ module.exports = function(app,express) {
             };
             var comprovarFB = require('./fbConnection');
             comprovarFB(options,options2,function(resultat){
-                console.log(resultat);
-                User.findOne({fbToken: req.params.fbToken}, function(err,usuari){
-                    if(err) res.send(err);
-                    if (usuari !== null && usuari !== undefined && usuari._id !== null && usuari._id !== undefined){
-                        res.send(usuari._id);
-                    }else{
-                        var u = new User();
-                        u.fbToken = req.params.fbToken;
-                        u.save(function(err){
-                            if (err) res.send(err);
-                            res.send(u._id);
-                        });
-                    }                
-                });            
-            }); 
-        });*/
+                if(resultat!="fals" && resultat.indexOf("error")=== -1){
+                    User.findOne({fbID: resultat}, function(err,usuari){
+                        if(err) res.send(err);
+                        if (usuari !== null && usuari !== undefined && usuari._id !== null && usuari._id !== undefined){
+                            res.send(usuari._id);
+                        }else{
+                            var u = new User();
+                            u.fbID = resultat;
+                            u.save(function(err){
+                                if (err) res.send(err);
+                                res.send(u._id);
+                            });
+                        }                
+                    });    
+                }else{
+                    res.send("Error! "+resultat);
+                }                          
+            });
+            //res.json("hey");
+        });
     
     return apiRouter;
 }
