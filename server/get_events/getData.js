@@ -1,20 +1,24 @@
 module.exports = {
 	getDataBCN: function() {
-		var webs = [//"http://w10.bcn.es/APPS/asiasiacache/peticioXmlAsia?id=199",
-			"http://w10.bcn.es/APPS/asiasiacache/peticioXmlAsia?id=103",
+		var webs = ["http://w10.bcn.es/APPS/asiasiacache/peticioXmlAsia?id=103",
 			"http://w10.bcn.es/APPS/asiasiacache/peticioXmlAsia?id=104",
 			"http://w10.bcn.es/APPS/asiasiacache/peticioXmlAsia?id=105",
 			"http://w10.bcn.es/APPS/asiasiacache/peticioXmlAsia?id=106",
+			"http://w10.bcn.es/APPS/asiasiacache/peticioXmlAsia?id=199"
 		];
 		for (var k in webs) {
-			getOpenDataBCN(webs[k]);
+			if(webs[k].indexOf("199") === -1){
+				getOpenDataBCN(webs[k], true);
+			}else{
+				getOpenDataBCN(webs[k], false);
+			}
 		}
 	}
 };
 
 var finalData = [];
 
-function getOpenDataBCN(web) {
+function getOpenDataBCN(web, isntToday) {
 	var http = require("http");
 	var fs = require("fs");
 	// Encoding
@@ -30,12 +34,12 @@ function getOpenDataBCN(web) {
 			bufList.push(buf);
 		});
 		res.on('end', function () {
-			callbackData(bufList);
+			callbackData(bufList, isntToday);
 		});
 	});
 }
 
-function callbackData(bufList) {
+function callbackData(bufList, isntToday) {
 	var result = Buffer.concat(bufList);
 	var xml = result.toString();
 
@@ -43,7 +47,7 @@ function callbackData(bufList) {
 	var parseString = require('xml2js').parseString;
 	parseString(xml, function (err, result) {
 		json = result;
-		var jsObj = transformData(json);
+		var jsObj = transformData(json, isntToday);
 		finalData.push(jsObj);
 		if(finalData.length == 4){
 			var saveData = require('./saveData');
@@ -54,12 +58,11 @@ function callbackData(bufList) {
 	});
 }
 
-function transformData(json) {
+function transformData(json, isntToday) {
 	var obj = json.response.body[0].resultat[0].actes[0].acte;
-	var eventArray = [];
+	var eventArray = [];	
 	for (var i in obj) {
 		var aux = new Object();
-
 		aux._id = obj[i].id[0];
 		aux.nom = obj[i].nom[0];
 		aux.nomLloc = obj[i].lloc_simple[0].nom[0];
@@ -67,16 +70,13 @@ function transformData(json) {
 		aux.numero = obj[i].lloc_simple[0].adreca_simple[0].numero[0]._;
 		aux.districte = obj[i].lloc_simple[0].adreca_simple[0].districte[0]._;
 		aux.municipi = obj[i].lloc_simple[0].adreca_simple[0].municipi[0]._;
-		if (obj[i].hasOwnProperty('googleMaps')) {
-			aux.lat = obj[i].lloc_simple[0].adreca_simple[0].coordenades[0].googleMaps[0].$.lat;
-			aux.lon = obj[i].lloc_simple[0].adreca_simple[0].coordenades[0].googleMaps[0].$.lon;
-		}	
 		aux.dataIni = obj[i].data[0].data_proper_acte[0];
-		/*if (obj[i].hasOwnProperty('hora_fi')) {
-			aux.dataFi = obj[i].data[0].hora_fi[0];
-		} else if (obj[i].hasOwnProperty('data_fi')) {
-			*/aux.dataFi = obj[i].data[0].data_fi[0];
-		//}
+		if(isntToday){
+			aux.dataFi = obj[i].data[0].data_fi[0];
+		}else{
+				aux.dataFi = obj[i].data[0].hora_fi[0];
+		}
+
 		var foobar = obj[i].classificacions[0].nivell;
 		aux.clasificacions = [];
 		aux.categories_generals = [];
@@ -94,7 +94,7 @@ function modificaClasificacio(clasi) {
 	var result = "";
 	var map = require('./mapClasifications.js');
 	if (map.mapClasi[clasi] == null || map.mapClasi[clasi] == undefined){
-		return "Oci&Cultura";
+		return "Oci";
 	}else 
 		return map.mapClasi[clasi];
 }
