@@ -90,7 +90,7 @@ module.exports = function(app,express) {
 
     apiRouter.route('/eventsDia/:diamesany')
         .get(function(req,res){
-            var data = req.params.diamesany;
+           /* var data = req.params.diamesany;
             //res.json(data);
             data = data.split("-");
             var today = new Date(data[2],data[1]-1,data[0]);
@@ -104,7 +104,8 @@ module.exports = function(app,express) {
                 if(err) res.send(err);
 
                 res.json(events);
-            });//.limit(15);
+            });//.limit(15);*/
+            res.json([]);
         });
 
     apiRouter.route('/events/:categories_generals')
