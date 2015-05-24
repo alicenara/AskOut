@@ -88,6 +88,25 @@ module.exports = function(app,express) {
             });//.limit(15);
         });
 
+    apiRouter.route('/eventsDia/:diamesany')
+        .get(function(req,res){
+            var data = req.params.diamesany;
+            //res.json(data);
+            data = data.split("-");
+            var today = new Date(data[2],data[1]-1,data[0]);
+            today.setHours(1,0,0,0);
+            var tomorrow = new Date();
+            tomorrow.setDate(today.getDate()+1);
+            tomorrow.setHours(1,0,0,0);
+            //res.json(today+" "+tomorrow);
+
+            Event.find({ data_inici : {$gte: today , $lt: tomorrow }},function(err,events){
+                if(err) res.send(err);
+
+                res.json(events);
+            });//.limit(15);
+        });
+
     apiRouter.route('/events/:categories_generals')
         // get the event with that categoria
         .get(function(req, res) {
