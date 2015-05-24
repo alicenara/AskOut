@@ -10,11 +10,11 @@ var config = require('./config');
 /*
  * Options for the SSL part:
  */
-var options = {
+/*var options = {
 	  key:    fs.readFileSync('ssl/server.key'),
     cert:   fs.readFileSync('ssl/server.crt'),
     ca:     fs.readFileSync('ssl/ca.crt')
-};
+};*/
 
  
 
@@ -24,9 +24,9 @@ var app = express();
  * Create the secure server:
 */
 // Create an HTTP service.
-http.createServer(app).listen(80);
+//http.createServer(app).listen(80);
 // Create an HTTPS service identical to the HTTP service.
-https.createServer(options, app).listen(443);
+//https.createServer(options, app).listen(443);
 
  
 
