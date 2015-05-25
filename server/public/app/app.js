@@ -14,6 +14,10 @@ angular.module('dynamicEvent', ['routerRoutes', 'eventService'])
       .success(function(data){
         var mun = (data.municipi).toLowerCase();
         data.municipi = mun.substring(0,1).toUpperCase()+mun.substring(1);
+        var dia = data.data_inici;
+        dia = dia.split("T");
+        dia = dia[0].split("-");
+        data.data_inici = ""+dia[2]+"/"+dia[1]+"/"+dia[0];
         vm.events = data;
       });
     /*

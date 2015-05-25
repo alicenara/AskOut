@@ -137,7 +137,7 @@ a:hover {
 
 .box2 {
 	width: 600px;
-	height: 360px;
+	/*height: 360px;*/
 	display: inline-block;
 	position: relative;
 	margin: 25px;
@@ -158,6 +158,7 @@ a:hover {
 .esdeveniments{
 	margin: 10px;
 	margin-top:0;
+	margin-left:20px;
 }
 
 .left{

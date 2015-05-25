@@ -5,20 +5,22 @@
 				<h3><b> Esdeveniment </b> </h3>
 					<p> {{ esdeveniment.events.nom }}</p>
 					<div class="left">
+						<h3><b> Dia </b> </h3> 
+						<p> {{ esdeveniment.events.data_inici }}</p>	
 						<h3><b> Lloc </b> </h3> 
 						<p> {{ esdeveniment.events.nomLloc }}</p>	
+						<h3><b> Direcció </b> </h3> 
+						<p> {{ esdeveniment.events.carrer }}, {{ esdeveniment.events.numero }}</p>						
+					</div>
+					<div class="right">						
+						<h3><b> Districte </b> </h3> 
+						<p> {{ esdeveniment.events.districte }}</p>
+						<h3><b> Municipi </b> </h3> 
+						<p> {{ esdeveniment.events.municipi }}</p>
 						<h3> <b> Categories </b> </h3> 					
 						<ul ng-repeat="(key, categoria) in esdeveniment.events.categories">
 							<li> {{ categoria }} </li>
 						</ul>
-					</div>
-					<div class="right">
-						<h3><b> Direcció </b> </h3> 
-							<p> {{ esdeveniment.events.carrer }}, {{ esdeveniment.events.numero }}</p>
-							<h3><b> Districte </b> </h3> 
-							<p> {{ esdeveniment.events.districte }}</p>
-							<h3><b> Municipi </b> </h3> 
-							<p> {{ esdeveniment.events.municipi }}</p>
 					</div>
 			</div>
 		</div>
