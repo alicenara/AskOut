@@ -1,33 +1,25 @@
-<div class="content" ng-controller="eventControler as ectrl">
+<div class="content" ng-controller="eventControler as esdeveniment" >
 		<div class="box2">
-			<div class="in">
-				<br>
-				<b> Event </b> - {{ ectrl.nom }}
-				<br>
-				<b> Lloc </b> - {{ ectrl.lloc }}
-				<br>
-				<b> Direcció </b> - {{ ectrl.carrer }}, {{ ectrl.numero }}
-				<br>
-				<b> Districte </b> - {{ ectrl.districte }}
-				<br>
-				<b> Municipi </b> - {{ ectrl.municipi }}
-				<br>
-				<table>
-					<thead>
-						<tr>
-							<td><b>Categories</b></td>
-							<td></td>
-						</tr>
-					</thead>
-					<tbody>
-						<tr ng-repeat="categoria in ectrl.categories">
-							<td></td>
-							<td> {{ categoria.nomCategoria }} </td>
-						</tr>
-					</tbody>
-				</table>
-				<br>
-				<br>
+			<div class="in esdeveniments">
+				<br> 
+				<h3><b> Esdeveniment </b> </h3>
+					<p> {{ esdeveniment.events.nom }}</p>
+					<div class="left">
+						<h3><b> Lloc </b> </h3> 
+						<p> {{ esdeveniment.events.nomLloc }}</p>	
+						<h3> <b> Categories </b> </h3> 					
+						<ul ng-repeat="(key, categoria) in esdeveniment.events.categories">
+							<li> {{ categoria }} </li>
+						</ul>
+					</div>
+					<div class="right">
+						<h3><b> Direcció </b> </h3> 
+							<p> {{ esdeveniment.events.carrer }}, {{ esdeveniment.events.numero }}</p>
+							<h3><b> Districte </b> </h3> 
+							<p> {{ esdeveniment.events.districte }}</p>
+							<h3><b> Municipi </b> </h3> 
+							<p> {{ esdeveniment.events.municipi }}</p>
+					</div>
 			</div>
 		</div>
 	</div>

@@ -10,7 +10,7 @@ angular.module('routerRoutes', ['ngRoute'])
       controllerAs: 'main'
     })
     // route for each event
-    .when('/esdeveniment/:id', {
+    .when('/esdeveniment/:getId', {
       templateUrl: 'views/infoEvents.html',
       controller: 'eventControler',
       controllerAs: 'esdeveniment'

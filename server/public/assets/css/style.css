@@ -154,3 +154,18 @@ a:hover {
 	position: relative;
 	text-align: left;
 }
+
+.esdeveniments{
+	margin: 10px;
+	margin-top:0;
+}
+
+.left{
+	float: left;
+	width: 50%;
+}
+
+.right{
+	float: right;
+	width: 50%;
+}

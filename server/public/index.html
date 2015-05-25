@@ -8,6 +8,8 @@
 	
 	<link rel="stylesheet" type="text/css" href="assets/css/style.css">
 	<link rel="stylesheet" href="assets/fontAwesome/css/font-awesome.min.css">
+	<link rel="shortcut icon" href="assets/img/favicon.ico" type="image/x-icon">
+	<link rel="icon" href="assets/img/favicon.ico" type="image/x-icon">
 
 	<!--<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.3.8/angular.min.js"></script>
 	<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.3.8/angular-route.js"></script>-->
@@ -16,15 +18,18 @@
 
 	<script src="app/app.js"></script>
 	<script src="app/app.routes.js"></script>
+	<script src="app/eventService.js"></script>
 	<!--<script src="app/angularControler.js"></script>-->
 
 </head>
 
 <body class="container" ng-app="dynamicEvent" ng-controller="mainControler as main">
 	<div class="header">
-		<div class="logo">
-			AskOut!
-		</div>
+		<a href="/#">
+			<div class="logo">
+				AskOut!
+			</div>
+		</a>
 
 		<div class="social">
 				<a class="navLink" target="_blank" rel="nofollow" href="#"><i class="fa fa-twitter"></i></a>

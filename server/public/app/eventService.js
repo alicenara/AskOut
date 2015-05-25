@@ -1,10 +1,10 @@
-/*angular.module('eventService', [])
+angular.module('eventService', [])
   .factory('Event', function($http) {
     // create a new object
     var eventFactory = {};
     // get a single user
   eventFactory.get = function(id) {
-    return $http.get('/api/event/' + id);
+    return $http.get('/api/esdeveniment/' + id);
   };
   // get all users
   /*userFactory.all = function() {
@@ -21,7 +21,7 @@
   // delete a user
   userFactory.delete = function(id) {
   return $http.delete('/api/users/' + id);
-  };
+  };*/
   // return our entire userFactory object
-  return userFactory;
-});*/
+  return eventFactory;
+});
