@@ -139,17 +139,6 @@ module.exports = function(app,express) {
             });
         });
 
-    apiRouter.route('/eventUsers/:idEvent')
-        .get(function(req,res){
-            Event.findOne({_id : req.params.idEvent}, function(err,events){
-                if(err) res.send(err);
-                User.find({ '_id' : { $in : events.users }}, function(err,users){
-                    if(err) res.send(err);
-                    res.json(users);
-                });
-            });
-        });
-
     /*apiRouter.route('/eventAvuiCat/:categories')
         .get(function(req,res){
             var cats = (req.params.categories).split('-');
@@ -187,7 +176,7 @@ module.exports = function(app,express) {
      //Show events users
     apiRouter.route('/userEvents/:idUser')
         .get(function(req,res){
-            User.findOne({_id : req.params.idUser}, null, {sort: {data_inici: -1}}, function(err,users){
+            User.findOne({_id : req.params.idUser}).sort({data_inici: 'desc'}).exec(function(err,users){
                 if(err) res.send(err);
                 Event.find({ '_id' : { $in : users.events }}, function(err,events){
                     if(err) res.send(err);
