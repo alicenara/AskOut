@@ -24,8 +24,6 @@
     function changeTitle() {
         var url = document.URL;
         var condicio = (url.indexOf("/esde") != -1);
-        alert(url);
-        alert(condicio);
         if (condicio) {        	
         	setTimeout(function(){
         		var nomEsd = "AskOut - " + document.getElementsByTagName("p")[0].innerHTML;	
