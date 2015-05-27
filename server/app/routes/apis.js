@@ -176,9 +176,9 @@ module.exports = function(app,express) {
      //Show events users
     apiRouter.route('/userEvents/:idUser')
         .get(function(req,res){
-            User.findOne({_id : req.params.idUser}).sort({data_inici: 'desc'}).exec(function(err,users){
+            User.findOne({_id : req.params.idUser}, function(err,users){
                 if(err) res.send(err);
-                Event.find({ '_id' : { $in : users.events }}, function(err,events){
+                Event.find({ '_id' : { $in : users.events }}).sort({data_inici: 1}).exec(function(err,events){
                     if(err) res.send(err);
                     res.json(events);
                 });
