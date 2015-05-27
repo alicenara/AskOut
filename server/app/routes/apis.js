@@ -18,7 +18,7 @@ module.exports = function(app,express) {
     });
 
     apiRouter.get('/',function(req,res) {
-        res.send("Apis main page <br> Get all events -> GET /events <br> Get today's events -> GET /eventsAvui <br> Get events dia categoria -> GET /eventsDia/:dia-mes-any/:categoria-categoria-categoria-etc <br> Get users de events -> GET /eventUsers/:idEvent <br> Insert events -> POST /events <br> Get events per categoria general -> GET /events/:categories_generals <br> Get all users -> GET /users <br> Get events user -> GET /userEvents/:idUser <br> Get interessos per ID user -> GET /userInterest/:idUser <br> Save fbToken and get ID -> GET /desarUser/:fbToken <br> A user goes to an event -> GET /anarEvent/:idUser/:idEvent <br> Save interest -> GET /users/:idUser/:interes/:bool");
+        res.send("Apis main page <br> Get all events -> GET /events <br> Get today's events -> GET /eventsAvui <br> Get events dia categoria -> GET /eventsDia/:dia-mes-any/:categoria-categoria-categoria-etc <br> Get users de events -> GET /eventUsers/:idEvent <br> Insert events -> POST /events <br> Get events per categoria general -> GET /events/:categories_generals <br> Get all users -> GET /users <br> Get events user -> GET /userEvents/:idUser <br> Get interessos per ID user -> GET /userInterest/:idUser <br> Save fbToken and get ID -> GET /desarUser/:fbToken <br> A user goes to an event -> GET /anarEvent/:idUser/:idEvent <br> A user doesn't go to an event anymore -> GET /esborrarEvent/:idUser/:idEvent <br> Save interest -> GET /users/:idUser/:interes/:bool");
     });
 
     /********************************************************************************
@@ -94,7 +94,7 @@ module.exports = function(app,express) {
                 if(err) res.send(err);
 
                 res.json(events);
-            });//.limit(15);
+            }).limit(100);//.limit(15);
         });
 
     apiRouter.route('/eventsDia/:diamesany')
@@ -187,7 +187,7 @@ module.exports = function(app,express) {
      //Show events users
     apiRouter.route('/userEvents/:idUser')
         .get(function(req,res){
-            User.findOne({_id : req.params.idUser}, function(err,users){
+            User.findOne({_id : req.params.idUser}, null, {sort: {data_inici: -1}}, function(err,users){
                 if(err) res.send(err);
                 Event.find({ '_id' : { $in : users.events }}, function(err,events){
                     if(err) res.send(err);
@@ -232,7 +232,6 @@ module.exports = function(app,express) {
             User.findOne({_id : req.params.idUser}, function(err,usuari){
                 if(err) res.send(err);   
                 var arrayEvents = usuari.events;
-
                 var i = 0;
                 while (i < arrayEvents.length && arrayEvents[i]!== req.params.idEvent){
                     i++;
@@ -243,11 +242,17 @@ module.exports = function(app,express) {
                         if (err) res.send(err);
                         Event.findOne({_id : req.params.idEvent}, function(err,eventTrobat){
                             if(err) res.send(err);
-                            eventTrobat.users.push(req.params.idUser);
-                            eventTrobat.save(function(err){
-                                if (err) res.send(err);
-                                res.send("desat");
-                            });
+                            var j = 0;
+                            while (j < eventTrobat.users.length && eventTrobat.users[j]!== req.params.idUser){
+                                j++;
+                            }
+                            if(j>=eventTrobat.users.length){
+                                eventTrobat.users.push(req.params.idUser);
+                                eventTrobat.save(function(err){
+                                    if (err) res.send(err);
+                                    res.send("desat");
+                                });
+                            }else res.send("desat pero no a esdeveniment");
                         });                        
                     });
                 }else{
@@ -255,24 +260,45 @@ module.exports = function(app,express) {
                 }
             });
         });
-    //Add user with fbToken
-    /*
-    apiRouter.route('/desarUser/:fbToken')
+    
+    //Delete events because user dont go anymore
+    apiRouter.route('/esborrarEvent/:idUser/:idEvent')
         .get(function(req,res){
-            User.findOne({fbToken: req.params.fbToken}, function(err,usuari){
-                if(err) res.send(err);
-                if (usuari !== null && usuari !== undefined && usuari._id !== null && usuari._id !== undefined){
-                    res.send(usuari._id);
+            User.findOne({_id : req.params.idUser}, function(err,usuari){
+                if(err) res.send(err);   
+                var arrayEvents = usuari.events;
+                var i = 0;
+                while (i < arrayEvents.length && arrayEvents[i]!== req.params.idEvent){
+                    i++;
+                }
+                if (i>=arrayEvents.length){
+                    res.send("no trobat lol");
                 }else{
-                    var u = new User();
-                    u.fbToken = req.params.fbToken;
-                    u.save(function(err){
+                    usuari.events.splice(i,1);
+                    usuari.save(function(err){
                         if (err) res.send(err);
-                        res.send(u._id);
+                        Event.findOne({_id : req.params.idEvent}, function(err,eventTrobat){
+                            if(err) res.send(err);
+                            var j = 0;
+                            while (j < eventTrobat.users.length && eventTrobat.users[j]!== req.params.idUser){
+                                j++;
+                            }
+                            if(j>=eventTrobat.users.length){
+                                res.send("trobat pero no a esdeveniment");
+                            }else{
+                                eventTrobat.users.splice(j,1);
+                                eventTrobat.save(function(err){
+                                    if (err) res.send(err);
+                                    res.send("trobat ok");
+                                });
+                            }
+                        });                        
                     });
-                }              
-            }); 
-        });*/
+                }
+            });
+        });
+
+    //Add user with fbToken
     apiRouter.route('/desarUser/:fbToken')
         .get(function(req,res){
             var options = {
