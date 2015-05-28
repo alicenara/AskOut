@@ -302,6 +302,7 @@ module.exports = function(app,express) {
                 path: '/me?access_token='+req.params.fbToken,
                 method: 'GET'
             };
+            var nomsInteressos = ['Espectacles','Música','Cinema','Museu','Infantil','Esport','Exposició','Art','Ciència','Cultura','Oci'];
             var comprovarFB = require('./fbConnection');
             comprovarFB(options,options2,function(resultat){
                 if(resultat!="fals" && resultat.indexOf("error")=== -1){
@@ -312,6 +313,10 @@ module.exports = function(app,express) {
                         }else{
                             var u = new User();
                             u.fbID = resultat;
+                            var i = 0;
+                            for(i=0;i<nomsInteressos.length;i++){                     
+                                u.interessos.push({ titol : nomsInteressos[i], interes : true });
+                            }
                             u.save(function(err){
                                 if (err) res.send(err);
                                 res.send(u._id);
